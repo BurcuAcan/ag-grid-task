@@ -1,5 +1,5 @@
 {
-  "name": "my-turborepo",
+  "name": "burcu-ag-grid-task",
   "private": true,
   "scripts": {
     "build": "turbo run build",
