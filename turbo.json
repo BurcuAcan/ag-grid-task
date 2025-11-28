@@ -1,6 +1,7 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
+  "globalEnv": ["AG_GRID_LICENSE_KEY"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
