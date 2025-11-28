@@ -1,3 +1,5 @@
+"use client";
+
 import {
   LicenseManager,
   SetFilterModule,
@@ -10,13 +12,16 @@ import {
   CellSelectionModule,
   ContextMenuModule,
   PivotModule,
-  ClipboardModule 
+  ClipboardModule,
+  FiltersToolPanelModule,
+  ExcelExportModule,
 } from "ag-grid-enterprise";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { AgChartsCommunityModule } from "ag-charts-community";
 
-if (process.env.NEXT_PUBLIC_AG_GRID_LICENSE_KEY) {
-  LicenseManager.setLicenseKey(process.env.NEXT_PUBLIC_AG_GRID_LICENSE_KEY);
+interface AgGridProviderProps {
+  licenseKey?: string;
+  children: React.ReactNode;
 }
 
 ModuleRegistry.registerModules([
@@ -31,6 +36,18 @@ ModuleRegistry.registerModules([
   IntegratedChartsModule.with(AgChartsCommunityModule),
   ContextMenuModule,
   PivotModule,
-  ClipboardModule 
+  ClipboardModule,
+  FiltersToolPanelModule,
+  ExcelExportModule,
 ]);
 
+let licenseSet = false;
+
+export function AgGridProvider({ licenseKey, children }: AgGridProviderProps) {
+  if (licenseKey && !licenseSet) {
+    LicenseManager.setLicenseKey(licenseKey);
+    licenseSet = true;
+  }
+
+  return <>{children}</>;
+}

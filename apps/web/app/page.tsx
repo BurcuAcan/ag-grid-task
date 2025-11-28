@@ -1,6 +1,4 @@
-"use client";
-
-import { DashboardContainer } from "@/modules/dashboard";
+import { DashboardContainer } from "@/modules/dashboard/containers/dashboard-container";
 
 export default function HomePage() {
   return <DashboardContainer />;

@@ -1,34 +1,43 @@
 "use client";
 
-import { TaskModal } from "../modals/task-modal";
-import { NewTaskModal } from "../modals/new-task-modal";
+import { useState } from "react";
+import { TaskModal } from "../components/modals/task-modal";
+import { NewTaskModal } from "../components/modals/new-task-modal";
 import { PageHeader } from "../components/page-header";
 import { DashboardHeader } from "../components/dashboard-header";
 import { SearchBar } from "../components/search-bar";
 import { TaskGrid } from "../components/task-grid";
-import { useTaskManagement } from "../hooks/use-task-management";
-import { useGridManagement } from "../hooks/use-grid-management";
+import { GridCustomizationMenu } from "../components/grid-customization-menu";
+import { FeaturesList } from "../components/features-list";
+import { useTasks } from "../hooks/use-tasks";
+import { useGridApi } from "../hooks/use-grid-api";
+import { DEFAULT_GRID_STYLE, type GridStyleSettings } from "../config/grid-style-config";
 
 export function DashboardContainer() {
+  const [styleSettings, setStyleSettings] = useState<GridStyleSettings>(DEFAULT_GRID_STYLE);
+  
   const {
     tasks,
     selectedTask,
     isModalOpen,
     isNewTaskModalOpen,
     setIsNewTaskModalOpen,
-    handleRowClick,
+    handleRowDoubleClick,
     handleCloseModal,
     handleNewTask,
     handleDeleteTasks,
-  } = useTaskManagement();
+  } = useTasks();
 
   const {
     quickFilterText,
     setQuickFilterText,
+    gridApi,
+    selectedCount,
     onGridReady,
+    onSelectionChanged,
     handleDeleteSelected,
     getRowStyle,
-  } = useGridManagement();
+  } = useGridApi();
 
   return (
     <div className="w-full min-h-screen bg-white">
@@ -42,20 +51,31 @@ export function DashboardContainer() {
           <DashboardHeader
             onNewTask={() => setIsNewTaskModalOpen(true)}
             onDeleteSelected={() => handleDeleteSelected(handleDeleteTasks)}
+            selectedCount={selectedCount}
           />
 
           <SearchBar
             value={quickFilterText}
             onChange={setQuickFilterText}
-          />
+          >
+            <GridCustomizationMenu 
+              gridApi={gridApi} 
+              styleSettings={styleSettings}
+              onStyleChange={setStyleSettings}
+            />
+          </SearchBar>
 
           <TaskGrid
             tasks={tasks}
             quickFilterText={quickFilterText}
-            onRowClick={handleRowClick}
+            onRowDoubleClick={handleRowDoubleClick}
             onGridReady={onGridReady}
+            onSelectionChanged={onSelectionChanged}
             getRowStyle={getRowStyle}
+            styleSettings={styleSettings}
           />
+
+          <FeaturesList />
         </div>
       </main>
 

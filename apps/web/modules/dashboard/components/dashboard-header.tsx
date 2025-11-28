@@ -1,11 +1,14 @@
-import { Plus, Trash2 } from "lucide-react";
+import { Plus } from "lucide-react";
+import { Button } from "@repo/ui/components/button";
+import { DeleteConfirmDialog } from "./modals/delete-confirm-dialog";
 
 interface DashboardHeaderProps {
   onNewTask: () => void;
   onDeleteSelected: () => void;
+  selectedCount: number;
 }
 
-export function DashboardHeader({ onNewTask, onDeleteSelected }: DashboardHeaderProps) {
+export function DashboardHeader({ onNewTask, onDeleteSelected, selectedCount }: DashboardHeaderProps) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-4">
       <div>
@@ -19,20 +22,14 @@ export function DashboardHeader({ onNewTask, onDeleteSelected }: DashboardHeader
       </div>
 
       <div className="flex items-center gap-2">
-        <button 
-          onClick={onNewTask} 
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-slate-800"
-        >
+        <Button onClick={onNewTask} className="rounded-full">
           <Plus className="h-4 w-4" />
           Yeni Görev
-        </button>
-        <button 
-          onClick={onDeleteSelected} 
-          className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50"
-        >
-          <Trash2 className="h-4 w-4" />
-          Seçili Görevleri Sil
-        </button>
+        </Button>
+        <DeleteConfirmDialog
+          selectedCount={selectedCount}
+          onConfirm={onDeleteSelected}
+        />
       </div>
     </div>
   );

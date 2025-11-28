@@ -1,15 +1,14 @@
 import { useState } from "react";
-import type { RowClickedEvent } from "ag-grid-community";
-import { Task } from "../types/task";
-import { mockTasks } from "../data/mock-tasks";
+import type { RowDoubleClickedEvent } from "ag-grid-community";
+import { type Task, mockTasks } from "@repo/mock-data";
 
-export function useTaskManagement() {
+export function useTasks() {
   const [tasks, setTasks] = useState<Task[]>(mockTasks);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNewTaskModalOpen, setIsNewTaskModalOpen] = useState(false);
 
-  const handleRowClick = (event: RowClickedEvent<Task>) => {
+  const handleRowDoubleClick = (event: RowDoubleClickedEvent<Task>) => {
     if (event.data) {
       setSelectedTask(event.data);
       setIsModalOpen(true);
@@ -42,7 +41,7 @@ export function useTaskManagement() {
     isModalOpen,
     isNewTaskModalOpen,
     setIsNewTaskModalOpen,
-    handleRowClick,
+    handleRowDoubleClick,
     handleCloseModal,
     handleNewTask,
     handleDeleteTasks,

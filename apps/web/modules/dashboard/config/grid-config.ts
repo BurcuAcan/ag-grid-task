@@ -25,6 +25,15 @@ export const SIDEBAR_CONFIG = {
         suppressPivotMode: false,
       },
     },
+    {
+      id: "filters",
+      labelDefault: "Filters",
+      labelKey: "filters",
+      iconKey: "filter",
+      toolPanel: "agFiltersToolPanel",
+    },
   ],
   defaultToolPanel: "",
+  hiddenByDefault: false,
+  position: "right" as const,
 };

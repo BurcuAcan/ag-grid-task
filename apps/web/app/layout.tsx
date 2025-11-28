@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { AgGridProvider } from "@/providers/ag-grid-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,12 +23,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const agGridLicenseKey = process.env.AG_GRID_LICENSE_KEY;
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <AgGridProvider licenseKey={agGridLicenseKey}>
+          {children}
+        </AgGridProvider>
       </body>
     </html>
   );
